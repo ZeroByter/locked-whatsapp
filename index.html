@@ -1,0 +1,114 @@
+<script>
+    if (typeof module === "object") { window.module = module; module = undefined; } 
+</script>
+<script src="jquery.js"></script>
+<script>if (window.module) module = window.module;</script>
+
+<style>
+    body {
+        margin: 0px;
+        background: rgb(50, 50, 50);
+    }
+
+    #center-container {
+        width: fit-content;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+
+    button {
+        margin-top: 20px;
+    }
+
+    input {
+        outline: none;
+        transform: scale(2);
+    }
+
+    #wrong-password{
+        color: red;
+        text-shadow: 0px 0px 5px red;
+        margin: 5px;
+        margin-bottom: 0px;
+    }
+
+    #logo{
+        position: absolute;
+        left: 50%;
+        top: 25%;
+        transform: translate(-50%, -50%);
+    }
+</style>
+
+<img id="logo" src="logo.png" />
+
+<div id="center-container">
+    <div id="first-time-container">
+        <form id="first-time-form">
+            <input id="first-time-password-input" type="password" required />
+            <br />
+            <button type="submit">create password and move on</button>
+        </form>
+    </div>
+    <div id="login-container">
+        <form id="login-form">
+            <input id="login-password-input" type="password" />
+            <br />
+            <p id="wrong-password">wrong password</p>
+            <button type="submit">login</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const fs = require("fs")
+    const crypto = require("crypto")
+
+    $("#first-time-container").hide()
+
+    $("#login-container").hide()
+    $("#wrong-password").hide()
+
+    let storedHash = null
+
+    fs.readFile("password.txt", (err, data) => {
+        if (data == null) {
+            //file doesn't exist...
+            $("#first-time-container").show()
+        } else {
+            $("#login-container").show()
+            $("#login-password-input").focus()
+            storedHash = data.toString()
+        }
+    })
+
+    $("#first-time-form").submit(() => {
+        let unhashed = $("#first-time-password-input").val()
+        let hashed = crypto.createHash("sha256").update(unhashed).digest("hex")
+
+        fs.writeFile("password.txt", hashed, () => {
+            window.location = "https://web.whatsapp.com/"
+        })
+
+        return false
+    })
+
+    $("#login-form").submit(() => {
+        let unhashed = $("#login-password-input").val()
+        let hashed = crypto.createHash("sha256").update(unhashed).digest("hex")
+
+        if(hashed === storedHash){
+            window.location = "https://web.whatsapp.com/"
+        }else{
+            $("#wrong-password").show()
+            setTimeout(() => {
+                $("#wrong-password").fadeOut()
+            }, 1000)
+        }
+
+        return false
+    })
+</script>
