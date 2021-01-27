@@ -16,6 +16,17 @@ To be honest, this is probably not very secure, and someone determined enough wi
 
 But for my needs, this is good enough.
 
+## Usage / Features
+Once you enter WhatsApp Web (either by first-time-use or login), you can relock the app at any time by pressing **Shift + Escape**.
+
+The app will also automatically lock itself whenever the computer itself locks down.
+
+## Plans for the future
+###### (which may or may not actually happen, just ideas)
+- Some extensions/upgrades to WhatsApp Web itself.
+- Better styling for the first-time-use/login screens.
+- A hovering button on top of the WhatsApp Web which locks the app
+
 ## Installation
 Download the built release
 
