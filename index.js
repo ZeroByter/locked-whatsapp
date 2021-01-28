@@ -26,7 +26,6 @@ function createWindow() {
         win.loadFile('index.html')
     })
 
-
     powerMonitor.addListener('lock-screen', () => {
         win.loadFile('index.html')
     });
@@ -34,13 +33,7 @@ function createWindow() {
     win.maximize()
 }
 
-app.whenReady().then(() => {
-    if (!isDev()) {
-        globalShortcut.register("CommandOrControl+R", () => { }) //When in production, we disable reloading the page...
-    }
-
-    createWindow()
-})
+app.whenReady().then(createWindow)
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
